@@ -1,0 +1,35 @@
+{
+  "mcpServers": {
+    "boot-mcp-basic": {
+      "command": "pnpm",
+      "args": ["-C", "/Users/kirklin/Code/projects/boot-mcp", "start:basic"],
+      "description": "Basic MCP server with stdio transport",
+      "capabilities": {
+        "tools": true,
+        "resources": true,
+        "prompts": true
+      },
+      "env": {
+        "NODE_ENV": "development",
+        "DEBUG": "mcp:*"
+      }
+    }
+  },
+  "settings": {
+    "autoApprove": false,
+    "timeout": 30000,
+    "retryAttempts": 3,
+    "retryDelay": 1000,
+    "debug": true
+  },
+  "tools": {
+    "echo": {
+      "description": "Echo back a message",
+      "server": "boot-mcp-basic"
+    },
+    "calculate": {
+      "description": "Perform basic arithmetic operations",
+      "server": "boot-mcp-basic"
+    }
+  }
+}
