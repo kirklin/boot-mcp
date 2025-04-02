@@ -2,7 +2,7 @@
   "name": "boot-mcp",
   "type": "module",
   "version": "0.0.0",
-  "packageManager": "pnpm@10.5.2",
+  "packageManager": "pnpm@10.7.1",
   "description": "A starter template for building Model Context Protocol (MCP) applications with TypeScript",
   "author": "Kirk Lin <https://github.com/kirklin>",
   "license": "MIT",
@@ -50,27 +50,27 @@
   "dependencies": {
     "@modelcontextprotocol/sdk": "latest",
     "cors": "^2.8.5",
-    "express": "^4.21.2",
+    "express": "^5.1.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
-    "@antfu/ni": "^23.3.1",
+    "@antfu/ni": "^24.3.0",
     "@kirklin/eslint-config": "^3.0.0",
     "@types/cors": "^2.8.17",
-    "@types/express": "^5.0.0",
-    "@types/node": "^22.13.8",
-    "bumpp": "^10.0.3",
-    "eslint": "^9.21.0",
+    "@types/express": "^5.0.1",
+    "@types/node": "^22.14.0",
+    "bumpp": "^10.1.0",
+    "eslint": "^9.23.0",
     "esno": "^4.8.0",
-    "lint-staged": "^15.4.3",
-    "pnpm": "^10.5.2",
+    "lint-staged": "^15.5.0",
+    "pnpm": "^10.7.1",
     "rimraf": "^6.0.1",
-    "simple-git-hooks": "^2.11.1",
-    "taze": "^18.6.0",
+    "simple-git-hooks": "^2.12.1",
+    "taze": "^19.0.4",
     "typescript": "^5.8.2",
     "unbuild": "^3.5.0",
-    "vite": "^6.2.0",
-    "vitest": "^3.0.7"
+    "vite": "^6.2.4",
+    "vitest": "^3.1.1"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
