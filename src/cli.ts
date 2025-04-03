@@ -6,7 +6,7 @@
  */
 import * as process from "node:process";
 
-const [,, serverType = "basic"] = process.argv;
+const [, , serverType = "basic"] = process.argv;
 
 async function main() {
   try {

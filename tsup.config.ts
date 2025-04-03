@@ -19,6 +19,7 @@ export default defineConfig({
   shims: true,
   treeshake: true,
   external: ["@modelcontextprotocol/sdk", "express", "cors", "zod"],
-  splitting: true,
+  splitting: false,
   bundle: true,
+  outDir: "dist",
 });

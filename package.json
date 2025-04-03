@@ -1,7 +1,7 @@
 {
   "name": "boot-mcp",
   "type": "module",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "packageManager": "pnpm@10.7.1",
   "description": "A starter template for building Model Context Protocol (MCP) applications with TypeScript",
   "author": "Kirk Lin <https://github.com/kirklin>",
@@ -32,9 +32,6 @@
     "./resources": "./dist/examples/resources-server.js",
     "./http": "./dist/examples/http-server.js"
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.mts",
   "bin": {
     "boot-mcp": "./dist/src/cli.js",
     "boot-mcp-basic": "./dist/bin/basic.js",
