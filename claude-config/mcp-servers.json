@@ -1,0 +1,26 @@
+{
+  "mcpServers": {
+    "boot-mcp-basic": {
+      "command": "npx",
+      "args": ["-y", "boot-mcp@latest", "basic"],
+      "description": "基础 MCP 服务器，提供所有功能 (工具、资源、提示)"
+    },
+    "boot-mcp-tools": {
+      "command": "npx",
+      "args": ["-y", "boot-mcp@latest", "tools"],
+      "description": "专用工具服务器，仅提供工具功能"
+    },
+    "boot-mcp-resources": {
+      "command": "npx",
+      "args": ["-y", "boot-mcp@latest", "resources"],
+      "description": "专用资源服务器，仅提供资源功能"
+    },
+    "boot-mcp-http": {
+      "command": "npx",
+      "args": ["-y", "boot-mcp@latest", "http"],
+      "host": "localhost",
+      "port": 3000,
+      "description": "HTTP MCP 服务器，需要先运行 npx -y boot-mcp@latest http"
+    }
+  }
+}

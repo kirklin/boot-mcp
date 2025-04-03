@@ -7,15 +7,18 @@
 [![License][license-src]][license-href]
 [![javascript_code style][code-style-image]][code-style-url]
 
-A starter template for building Model Context Protocol (MCP) applications with TypeScript.
+A comprehensive starter template for building Model Context Protocol (MCP) applications with TypeScript.
 
 ## What is MCP?
 
 The Model Context Protocol (MCP) lets you build servers that expose data and functionality to LLM applications in a secure, standardized way. Think of it like a web API, but specifically designed for LLM interactions. MCP servers can:
 
-- Expose data through Resources (think of these sort of like GET endpoints; they are used to load information into the LLM's context)
-- Provide functionality through Tools (sort of like POST endpoints; they are used to execute code or otherwise produce a side effect)
-- Define interaction patterns through Prompts (reusable templates for LLM interactions)
+- Expose data through **Resources** (think of these sort of like GET endpoints; they are used to load information into the LLM's context)
+- Provide functionality through **Tools** (sort of like POST endpoints; they are used to execute code or otherwise produce a side effect)
+- Define interaction patterns through **Prompts** (reusable templates for LLM interactions)
+- Set boundaries with **Roots** (defining the operational scope for servers)
+- Enable agent behaviors with **Sampling** (allowing servers to request completions from LLMs)
+- Establish connections via **Transports** (communication mechanisms between clients and servers)
 
 ## Installation
 
@@ -41,7 +44,7 @@ This template includes examples of MCP servers with different transports:
 
 ```bash
 # Start the stdio server
-pnpm start
+pnpm start:basic
 
 # Start the HTTP server
 pnpm start:http
@@ -54,14 +57,67 @@ boot-mcp/
 ├── src/
 │   ├── index.ts          # Main entry point
 │   ├── server/           # MCP server implementations
-│   │   ├── stdio.ts      # Stdio transport server
+│   │   ├── basic.ts      # Basic server with common functionality
 │   │   └── http.ts       # HTTP with SSE transport server
 │   ├── resources/        # Resource implementations
+│   │   └── index.ts      # Common resource types and utilities
 │   ├── tools/            # Tool implementations
-│   └── prompts/          # Prompt implementations
+│   │   └── index.ts      # Various tools organized by category
+│   ├── prompts/          # Prompt implementations
+│   │   └── index.ts      # Common prompt templates and workflows
+│   ├── roots/            # Root management
+│   │   └── index.ts      # Root definition and utilities
+│   ├── transports/       # Transport implementations
+│   │   └── index.ts      # Stdio and HTTP/SSE transports
+│   └── sampling/         # Sampling utilities (experimental)
+│       └── index.ts      # LLM sampling capabilities
 ├── examples/             # Example usage
+│   ├── basic-server.ts   # Basic stdio server example
+│   └── http-server.ts    # HTTP server example
 └── test/                 # Tests
 ```
+
+## Features
+
+### Resources
+
+- Text and binary resource support
+- Dynamic resource templates with parameters
+- Standard resource types (files, system info, etc.)
+- Resource content helpers
+
+### Tools
+
+- System operation tools (execute commands, read files, etc.)
+- Data processing tools (JSON parsing, CSV analysis, etc.)
+- Utility tools (random generators, string transformations, etc.)
+- Calculator and basic tools
+
+### Prompts
+
+- Simple greeting and text processing prompts
+- Code review prompts with language detection
+- Multi-step debugging workflows
+- Resource-based prompt templates
+
+### Roots
+
+- File system root management
+- URI validation and filtering
+- Standard root templates
+
+### Transports
+
+- Stdio transport for terminal applications
+- HTTP/SSE transport for web applications
+- Unified configuration interface
+
+### Sampling (Experimental)
+
+- Text completion requests
+- Conversation-based sampling
+- Model preference controls
+- Agent workflow examples
 
 ## License
 

@@ -21,28 +21,44 @@
     "typescript",
     "template"
   ],
-  "sideEffects": false,
+  "sideEffects": [
+    "examples/**/*",
+    "bin/**/*"
+  ],
   "exports": {
-    ".": "./dist/index.mjs"
+    ".": "./dist/index.mjs",
+    "./basic": "./dist/examples/basic-server.js",
+    "./tools": "./dist/examples/tools-server.js",
+    "./resources": "./dist/examples/resources-server.js",
+    "./http": "./dist/examples/http-server.js"
   },
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.mts",
+  "bin": {
+    "boot-mcp": "./dist/src/cli.js",
+    "boot-mcp-basic": "./dist/bin/basic.js",
+    "boot-mcp-tools": "./dist/bin/tools.js",
+    "boot-mcp-resources": "./dist/bin/resources.js",
+    "boot-mcp-http": "./dist/bin/http.js"
+  },
   "files": [
+    "bin",
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "dev": "unbuild --stub",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "prepublishOnly": "npm run build",
     "postinstall": "npm run build",
     "release": "bumpp",
-    "start": "esno src/index.ts",
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "start": "esno examples/basic-server.ts",
     "start:basic": "esno examples/basic-server.ts",
+    "start:tools": "esno examples/tools-server.ts",
+    "start:resources": "esno examples/resources-server.ts",
     "start:http": "esno examples/http-server.ts",
     "test": "vitest",
+    "lint": "eslint .",
+    "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks",
     "up": "taze major -r -w -I"
@@ -67,6 +83,7 @@
     "rimraf": "^6.0.1",
     "simple-git-hooks": "^2.12.1",
     "taze": "^19.0.4",
+    "tsup": "^8.2.0",
     "typescript": "^5.8.2",
     "unbuild": "^3.5.0",
     "vite": "^6.2.4",

@@ -1,8 +1,64 @@
+import * as path from "node:path";
+import * as process from "node:process";
 /**
  * Basic MCP server implementation with common tools and resources
  */
-import { McpServer, ResourceTemplate } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
+import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import { registerCommonPrompts } from "../prompts/index.js";
+import { registerCommonResources } from "../resources/index.js";
+import { createStandardRoots, registerRootHandling } from "../roots/index.js";
+import { registerCommonTools } from "../tools/index.js";
+
+/**
+ * Basic server configuration options
+ */
+export interface ServerOptions {
+  /**
+   * Name of the server
+   */
+  name: string;
+
+  /**
+   * Version of the server
+   */
+  version: string;
+
+  /**
+   * Base directory for resources and roots
+   */
+  baseDirectory?: string;
+
+  /**
+   * Whether to enable tools
+   */
+  enableTools?: boolean;
+
+  /**
+   * Whether to enable resources
+   */
+  enableResources?: boolean;
+
+  /**
+   * Whether to enable prompts
+   */
+  enablePrompts?: boolean;
+
+  /**
+   * Whether to enable roots
+   */
+  enableRoots?: boolean;
+}
+
+/**
+ * Default server options
+ */
+export const DEFAULT_SERVER_OPTIONS: Partial<ServerOptions> = {
+  baseDirectory: process.cwd(),
+  enableTools: true,
+  enableResources: true,
+  enablePrompts: true,
+  enableRoots: true,
+};
 
 /**
  * Creates a basic MCP server with common tools and resources
@@ -10,89 +66,102 @@ import { z } from "zod";
  * @param options Server configuration options
  * @returns Configured MCP server instance
  */
-export function createBasicServer(options: {
-  name: string;
-  version: string;
-}) {
+export function createBasicServer(options: ServerOptions): McpServer {
+  const mergedOptions = { ...DEFAULT_SERVER_OPTIONS, ...options };
+
+  // Normalize base directory
+  const baseDir = path.resolve(mergedOptions.baseDirectory || process.cwd());
+
+  // Create server capabilities
+  const capabilities: Record<string, Record<string, unknown>> = {};
+
+  // Enable requested features
+  if (mergedOptions.enableTools) {
+    capabilities.tools = {};
+  }
+
+  if (mergedOptions.enableResources) {
+    capabilities.resources = {};
+  }
+
+  if (mergedOptions.enablePrompts) {
+    capabilities.prompts = {};
+  }
+
+  if (mergedOptions.enableRoots) {
+    capabilities.roots = {};
+  }
+
   // Create an MCP server
   const server = new McpServer({
-    name: options.name,
-    version: options.version,
-  });
+    name: mergedOptions.name,
+    version: mergedOptions.version,
+  }, { capabilities });
 
-  // Add a simple echo tool
-  server.tool(
-    "echo",
-    { message: z.string() },
-    async ({ message }) => ({
-      content: [{ type: "text", text: `Echo: ${message}` }],
-    }),
-  );
+  // Register common tools if enabled
+  if (mergedOptions.enableTools) {
+    registerCommonTools(server);
+  }
 
-  // Add a calculator tool
-  server.tool(
-    "calculate",
-    {
-      operation: z.enum(["add", "subtract", "multiply", "divide"]),
-      a: z.number(),
-      b: z.number(),
-    },
-    async ({ operation, a, b }) => {
-      let result: number;
+  // Register common resources if enabled
+  if (mergedOptions.enableResources) {
+    registerCommonResources(server);
+  }
 
-      switch (operation) {
-        case "add":
-          result = a + b;
-          break;
-        case "subtract":
-          result = a - b;
-          break;
-        case "multiply":
-          result = a * b;
-          break;
-        case "divide":
-          if (b === 0) {
-            return {
-              content: [{ type: "text", text: "Error: Division by zero" }],
-              isError: true,
-            };
-          }
-          result = a / b;
-          break;
-      }
+  // Register common prompts if enabled
+  if (mergedOptions.enablePrompts) {
+    registerCommonPrompts(server);
+  }
 
-      return {
-        content: [{ type: "text", text: String(result) }],
-      };
-    },
-  );
-
-  // Add a dynamic greeting resource
-  server.resource(
-    "greeting",
-    new ResourceTemplate("greeting://{name}", { list: undefined }),
-    async (uri, { name }) => ({
-      contents: [{
-        uri: uri.href,
-        text: `Hello, ${name}!`,
-      }],
-    }),
-  );
-
-  // Add a simple prompt
-  server.prompt(
-    "greet",
-    { name: z.string() },
-    ({ name }) => ({
-      messages: [{
-        role: "user",
-        content: {
-          type: "text",
-          text: `Please greet ${name} in a friendly way.`,
-        },
-      }],
-    }),
-  );
+  // Register root handling if enabled
+  if (mergedOptions.enableRoots) {
+    registerRootHandling(server, {
+      defaultRoots: createStandardRoots(baseDir),
+    });
+  }
 
   return server;
+}
+
+/**
+ * Creates a server with minimal features enabled
+ *
+ * @param options Server configuration options
+ * @returns Configured MCP server instance
+ */
+export function createMinimalServer(options: ServerOptions): McpServer {
+  return createBasicServer({
+    ...options,
+    enableResources: false,
+    enablePrompts: false,
+    enableRoots: false,
+  });
+}
+
+/**
+ * Creates a server focused on tool functionality
+ *
+ * @param options Server configuration options
+ * @returns Configured MCP server instance
+ */
+export function createToolsServer(options: ServerOptions): McpServer {
+  return createBasicServer({
+    ...options,
+    enableResources: false,
+    enablePrompts: false,
+  });
+}
+
+/**
+ * Creates a server focused on resource functionality
+ *
+ * @param options Server configuration options
+ * @returns Configured MCP server instance
+ */
+export function createResourcesServer(options: ServerOptions): McpServer {
+  return createBasicServer({
+    ...options,
+    enableTools: false,
+    enablePrompts: false,
+  });
 }
