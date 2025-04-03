@@ -1,6 +1,4 @@
 import * as process from "node:process";
-import { registerCommonPrompts } from "../src/prompts/index.js";
-import { registerCommonResources } from "../src/resources/index.js";
 /**
  * Basic MCP server example
  *
@@ -8,7 +6,6 @@ import { registerCommonResources } from "../src/resources/index.js";
  * 这个示例演示如何创建一个带有stdio传输的简单MCP服务器。
  */
 import { createBasicServer } from "../src/server/basic.js";
-import { registerCommonTools } from "../src/tools/index.js";
 import { setupStdioTransport } from "../src/transports/index.js";
 
 async function main() {

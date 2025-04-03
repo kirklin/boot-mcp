@@ -8,7 +8,6 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { exec as execCallback } from "node:child_process";
 import * as fs from "node:fs/promises";
-import * as path from "node:path";
 import * as process from "node:process";
 import { promisify } from "node:util";
 import { z } from "zod";

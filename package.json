@@ -55,6 +55,7 @@
     "start:http": "esno examples/http-server.ts",
     "test": "vitest",
     "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
     "prepublishOnly": "npm run build",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks",
